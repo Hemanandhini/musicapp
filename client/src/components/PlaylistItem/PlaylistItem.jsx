@@ -9,7 +9,7 @@ const PlaylistItem = ( ) => {
 
     const[addSongs, setAddSongs] = useState(false);
     const [songsList, setSongsList] = useState([]);
-    const [allPlayListsSongs, setAllMyPlayLists] = useState([]); // allMyPlaylists
+    const [allPlayListsSongs, setallPlayListsSongs] = useState([]); // allMyPlaylists
     const[shuffle, setShuffle]  = useState(false);
     const [albums, setAlbums] = useState([]);
     const [currentPlayList, setCurrentPlaylist] = useState("");
@@ -19,7 +19,7 @@ const PlaylistItem = ( ) => {
       const allPlayLists = JSON.parse(localStorage.getItem("playlist"));
       if(allPlayListsSongs !== null){
         const myPlayList =  allPlayLists.find((playlist) => playlist.id === id);
-        setAllMyPlayLists(allPlayLists);
+        setallPlayListsSongs(allPlayLists);
         setSongsList(myPlayList.songs)
         setCurrentPlaylist(myPlayList);
       }
@@ -56,16 +56,8 @@ const PlaylistItem = ( ) => {
         }
         return {...oldList}
       })
-      setAllMyPlayLists((prevList) => {
-         const oldList = [...prevList];
-         setItem(oldList);
-         return [...oldList]
-        //  if(prevList.length > 0){
-        //   setItem(oldList);
-        //   return [...oldList]
-        //  }
-        // return [...prevList];
-       })
+      setItem(allPlayListsSongs)
+      
     };
   
     const removeItem = (itemToBeDeleted) => {
@@ -75,26 +67,14 @@ const PlaylistItem = ( ) => {
         return [...remainingSongs];
       })
 
-     
-
-      
-
       setCurrentPlaylist((prevList) => {
         const oldList = {...prevList};
         const oldSongs = [...oldList.songs];
         let indexTobeDeleted = oldSongs.findIndex((item) => item.id === itemToBeDeleted.id);
-        prevList.songs.splice(indexTobeDeleted, 1);
-
+        oldList.songs.slice(0);
+        setItem([{...oldList}])
         return {...oldList}
       })
-
-      setAllMyPlayLists((prevList) => {
-        console.log("rev", prevList);
-         const oldList = [...prevList];
-         setItem(oldList);
-         return [...oldList];
-       })
-      
     };
   
     const shuffleSongs = (songs) => {
@@ -106,7 +86,7 @@ const PlaylistItem = ( ) => {
         oldSongs.slice(0);
         return {...oldList}
       })
-      setItem(allMyPlayLists);
+      setItem(allPlayListsSongs);
       setShuffle((prevState) => !prevState)
     };
   
