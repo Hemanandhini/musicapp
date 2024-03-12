@@ -8,7 +8,6 @@ const authRoutes = require('./routes/authRoutes');
 const cors = require('cors');
 var expressBodyParser = require('body-parser');
 const User = require('./models/User.js');
-const accountController = require('./controllers/accountController.js')
 const path = require('path')
 app.use(cors());
 
@@ -54,8 +53,6 @@ app.use(passport.initialize());
 app.use(passport.session()); 
 
 app.use('/', authRoutes);
-
-app.get('/profile', passport.authenticate('jwt', { session: false }), accountController.profile)
 
 // Allowing app to listen on port 3000 
 app.listen(3000, function () { 
